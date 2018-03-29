@@ -16,6 +16,23 @@ link_data.columns = ['ID','TID','Label']
 all_data = edges_data.join(merged_data['Content'])
 edges = all_data.assign(edge_num=[0 + i for i in xrange(len(all_data))])[['edge_num'] + all_data.columns.tolist()]
 
+'''
+dict_links = link_data.set_index(['ID','TID'])['Label'].to_dict()
+label_file = open('Original_labels.txt','w')
+with open('complete_EL_nospace.txt','r') as f:
+    for lines in f:
+        line = lines.strip().split('\t')
+        label_file.write(line[0] + '\t' + line[1] + '\t' + dict_links[line[0],line[1]])
+        label_file.write('\n')
+label_file.close()
+'''
+
+labels_data = pd.read_csv('Original_labels.txt',sep='\t',header=None,dtype=str)
+labels_data.columns = ['ID','TID','Label']
+
+original_graph = edges.join(labels_data['Label'])
+
+#np.savetxt('Original_graph.txt', original_graph.values, fmt='%s', delimiter="\t")
 
 '''
 sample_edges = edges_data.head(15)
@@ -35,6 +52,7 @@ id_list = np.unique(id_list_f)
 edges_data = pd.read_csv('try_graph.txt',sep='\t',header=None,dtype=str)
 edges_data.columns = ['edge_num','ID','TID']
 '''
+
 
 group1 = edges.groupby('TID')['edge_num'].unique()
 less_groups1 = group1[group1.apply(lambda x: len(x)>1)]
@@ -64,7 +82,7 @@ for p in self_group.values:
 
 
 tmp = set()
-e_file = open('new_graph_correct.txt','w')
+e_file = open('new_graph_correct0.5.txt','w')
 
 for lst1 in my_list1:
     for i in permutations(lst1.tolist(), 2):
@@ -79,10 +97,10 @@ for lst2 in my_list2:
         pair2 = " ".join(str(sorted(j)))
         if pair2 not in tmp:
             tmp.add(pair2)
-            e_file.write(str(j[0]) + '\t' + str(j[1]) + '\t' + '1\n')
+            e_file.write(str(j[0]) + '\t' + str(j[1]) + '\t' + '0.5\n')
 
 for lst3 in my_list3:
-    e_file.write(str(lst3) + '\t' + str(lst3) + '\t' + '1\n')
+    e_file.write(str(lst3) + '\t' + str(lst3) + '\t' + '0.5\n')
 
 e_file.close()
 

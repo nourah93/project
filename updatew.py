@@ -101,9 +101,10 @@ with open('graph_output.txt','r') as fn:
 t_file.close()
 '''
 
-
-t_file = open('t_file41.txt','w')
-with open('graph_output41.txt','r') as fn:
+#file that makes node2vec without content
+'''
+t_file = open('node2vec_corr.txt','w')
+with open('graph_output_correct.txt','r') as fn:
     next(fn)
     for line in fn:
         lines = line.strip().split(' ')
@@ -114,14 +115,12 @@ with open('graph_output41.txt','r') as fn:
         t_file.write('\n')
 
 t_file.close()
+'''
 
 
 
 
-
-
-
-
+'''
 #updating the weights
 u_file = open('updated_graph_tunedoc.txt','w')
 with open('new_graph.txt','r') as file:
@@ -139,4 +138,4 @@ with open('new_graph.txt','r') as file:
             u_file.write(lines[0] + '\t' + lines[1] + '\t' + str(updated_weight[0][0]) + '\n')
 
 u_file.close()
-
+'''

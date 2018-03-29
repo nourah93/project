@@ -7,6 +7,7 @@ from sklearn import tree
 from sklearn.metrics import f1_score
 from sklearn.metrics import precision_score
 from sklearn.metrics import recall_score
+from sklearn.svm import LinearSVC
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
@@ -82,19 +83,8 @@ y_train = [label_dict[str(ind)] for ind in index_train]
 x_test = [vec_dict[str(ind)] for ind in index_test]
 x_train = [vec_dict[str(ind)] for ind in index_train]
 
-#k=9
-#l=20
-h=100
-s='tanh'
-#logreg = LogisticRegression(penalty='l2', C=100,random_state=0,class_weight='balanced')
-#logreg.fit(x_train, y_train)
-'''
-neigh = KNeighborsClassifier(n_neighbors=k,algorithm='kd_tree',leaf_size=l,metric='minkowski')
-neigh.fit(x_train, y_train)
-'''
-clf = MLPClassifier(solver='lbfgs', alpha=1e-5,hidden_layer_sizes=(h), random_state=1,activation=s)
-#clf = tree.DecisionTreeClassifier()
-#clf = SVC(kernel='linear', C=10) #try also C=100, C=1000
+
+clf = LinearSVC(random_state=0,dual=False)
 clf.fit(x_train,y_train)
 predicted = clf.predict(x_test)
 f1 = f1_score(y_test, predicted, average='binary', pos_label='+')
